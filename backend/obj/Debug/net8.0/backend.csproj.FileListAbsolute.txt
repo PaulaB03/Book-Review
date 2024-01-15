@@ -134,3 +134,12 @@ D:\FMI\BookApp\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.C
 D:\FMI\BookApp\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 D:\FMI\BookApp\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\FMI\BookApp\backend\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\BCrypt.Net.dll
+D:\FMI\BookApp\backend\obj\Debug\net8.0\backend.sourcelink.json
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\OLT.AspNetCore.Authentication.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\OLT.AspNetCore.Authentication.JwtBearer.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\OLT.AspNetCore.Shared.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\OLT.Core.Common.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\OLT.Extensions.General.dll

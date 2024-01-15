@@ -7,10 +7,10 @@ namespace backend.Models
     {
         [Key] 
         [Column("category_id")] 
-        public int Category_Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Column("category_name")]
-        public string Category_Name { get; set; }
+        public string Name { get; set; }
     }
 }
