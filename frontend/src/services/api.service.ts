@@ -10,8 +10,4 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getCategories(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/category`);
-  }
-
 }

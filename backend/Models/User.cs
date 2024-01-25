@@ -4,13 +4,6 @@ using System.Text.Json.Serialization;
 
 namespace backend.Models
 {
-    public enum UserRole
-    {
-        user,
-        author,
-        admin
-    }
-
     public class User
     {
         [Key]
@@ -32,17 +25,31 @@ namespace backend.Models
         public string FirstName { get; set; } = string.Empty;
         [Column("last_name")]
         public string LastName { get; set; } = string.Empty;
-        [Required]
         [JsonIgnore]
-        [NotMapped]
-        public UserRole Role { get; set; } = UserRole.user;
-
+        private string _role = "user";
         [Required]
-        [Column("role")] 
-        public string RoleString
+        [Column("role")]
+        public string Role
         {
-            get => Role.ToString();
-            set => Role = Enum.Parse<UserRole>(value, true);
+            get => _role;
+            set
+            {
+                // Validate that the role is either "user" or "admin"
+                if (value == "user" || value == "admin")
+                {
+                    _role = value;
+                }
+                else
+                {
+                    _role = "user";
+                }
+            }
+        }
+
+        // Constructor to set default values, including the default role
+        public User()
+        {
+            Role = "user";
         }
     }
 }

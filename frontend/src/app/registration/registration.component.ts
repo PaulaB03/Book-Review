@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,6 +11,12 @@ export class RegistrationComponent {
   user = { username: '', email: '', password: '', firstName: '', lastName: ''};
 
   constructor(private authService: AuthService, private router: Router) { }
+
+  ngOnInit() {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/profile']);
+    }
+  }
 
   register(): void {
     this.authService.register(this.user).subscribe(response => {

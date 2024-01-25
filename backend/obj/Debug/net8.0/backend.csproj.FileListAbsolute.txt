@@ -143,3 +143,13 @@ D:\FMI\BookApp\backend\bin\Debug\net8.0\OLT.AspNetCore.Authentication.JwtBearer.
 D:\FMI\BookApp\backend\bin\Debug\net8.0\OLT.AspNetCore.Shared.dll
 D:\FMI\BookApp\backend\bin\Debug\net8.0\OLT.Core.Common.dll
 D:\FMI\BookApp\backend\bin\Debug\net8.0\OLT.Extensions.General.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.AspNet.Identity.Core.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.AspNet.Identity.Owin.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.Owin.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.Owin.Security.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.Owin.Security.Cookies.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Microsoft.Owin.Security.OAuth.dll
+D:\FMI\BookApp\backend\bin\Debug\net8.0\Owin.dll

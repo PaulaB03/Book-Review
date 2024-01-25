@@ -50,7 +50,7 @@ namespace backend.Controllers
                 user.Password = _passwordService.HashPassword(user.Password);
 
                 // Set user role
-                user.Role = UserRole.user;
+                user.Role = "user";
 
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
@@ -66,7 +66,7 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal server error");
             }
 
-        }
+        } 
 
         // POST: api/user/login
         [HttpPost("login")]
@@ -81,11 +81,17 @@ namespace backend.Controllers
 
             // Return a JWT token upon successful login
             var token = GenerateJwtToken(user);
-            return Ok(new { Token = token });
+            user.Password = "";
+
+            // Log the token payload
+            Console.WriteLine("Token Payload: " + new JwtSecurityTokenHandler().ReadToken(token));
+
+            return Ok(new { Token = token, User = user });
         }
 
         // GET: api/user/id
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<User> GetUser(int id)
         {
             var user = _context.Users.Find(id);
@@ -97,10 +103,11 @@ namespace backend.Controllers
 
             return Ok(user);
         }
-
+        
         // PUT: api/user/updateRole/{id}
         [HttpPut("updateRole/{id}")]
-        public async Task<ActionResult<User>> UpdateUserRole(int id, UserRole newRole)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<User>> UpdateUserRole(int id, string newRole)
         {
             try
             {
@@ -109,6 +116,12 @@ namespace backend.Controllers
                 if (user == null)
                 {
                     return NotFound();
+                }
+
+                // Check if the provided role is either 'user' or 'admin'
+                if (newRole.ToLower() != "user" && newRole.ToLower() != "admin")
+                {
+                    return BadRequest("Invalid role. Role must be either 'user' or 'admin'.");
                 }
 
                 // Update user role
@@ -123,19 +136,19 @@ namespace backend.Controllers
             }
         }
 
-
         private string GenerateJwtToken(User user)
         {
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
-            };
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role)  // Add user role directly
+        };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddHours(Convert.ToDouble(_configuration["Jwt:ExpireHours"]));
+            var expires = DateTime.Now.AddHours(1); // Set token expiration to one hour
 
             var token = new JwtSecurityToken(
                 _configuration["Jwt:ValidIssuer"],
@@ -147,5 +160,6 @@ namespace backend.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }
