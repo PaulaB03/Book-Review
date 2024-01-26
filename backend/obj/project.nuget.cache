@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0GsS7sEWYQ8kra8FxXtABm9Iu2TFDsLoZr+ZNI7GORwiw7c1/eEnD76MPKm8yk9iwXQj3sy3+lZYAky+xMxtYg==",
+  "dgSpecHash": "ln7Wp1EPNt2pLt08f+JU8Op1VXDF80sN+k3b5YtmX2Mx0Uwf/i9Lv2cpFnOqI2XL8YvYLi8ij94VxQvO8yOAKw==",
   "success": true,
   "projectFilePath": "D:\\FMI\\BookApp\\backend\\backend.csproj",
   "expectedPackageFiles": [
@@ -41,6 +41,7 @@
     "C:\\Users\\balan\\.nuget\\packages\\microsoft.entityframeworkcore.design\\8.0.1\\microsoft.entityframeworkcore.design.8.0.1.nupkg.sha512",
     "C:\\Users\\balan\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\8.0.1\\microsoft.entityframeworkcore.relational.8.0.1.nupkg.sha512",
     "C:\\Users\\balan\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\8.0.1\\microsoft.entityframeworkcore.sqlserver.8.0.1.nupkg.sha512",
+    "C:\\Users\\balan\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\8.0.1\\microsoft.entityframeworkcore.tools.8.0.1.nupkg.sha512",
     "C:\\Users\\balan\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\balan\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0\\microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\balan\\.nuget\\packages\\microsoft.extensions.caching.memory\\8.0.0\\microsoft.extensions.caching.memory.8.0.0.nupkg.sha512",
