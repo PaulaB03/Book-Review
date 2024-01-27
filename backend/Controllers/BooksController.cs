@@ -20,16 +20,16 @@ namespace backend.Controllers
 
         // GET: api/Books
         [HttpGet]
-        public ActionResult<IEnumerable<Book>> GetBooks()
+        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
-            return _context.Books.Include(b => b.Author).ToList();
+            return await _context.Books.Include(b => b.Author).ToListAsync();
         }
 
         // GET: api/Books/{id}
         [HttpGet("{id}")]
-        public ActionResult<Book> GetBook(int id)
+        public async Task<ActionResult<Book>> GetBook(int id)
         {
-            var book = _context.Books.Include(b => b.Author).FirstOrDefault(b => b.Id == id);
+            var book = await _context.Books.Include(b => b.Author).FirstOrDefaultAsync(b => b.Id == id);
 
             if (book == null)
             {
@@ -39,26 +39,26 @@ namespace backend.Controllers
             return book;
         }
 
-        // POST: api/Books
+        // POST: api/books
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public ActionResult<Book> PostBook([FromBody] Book book)
+        public async Task<ActionResult<Book>> PostBook(Book book)
         {
-            // Check if the author already exists
-            var existingAuthor = _context.Author.FirstOrDefault(a => a.Name == book.Author.Name);
-
-            if (existingAuthor == null)
+            if (book.AuthorId <= 0)
             {
-                // If the author doesn't exist, add it to the context
-                var newAuthor = new Author { Name = book.Author.Name };
-                _context.Author.Add(newAuthor);
-
-                book.Author = newAuthor;
+                return BadRequest("AuthorId must be specified.");
             }
 
-            _context.Books.Add(book);
-            _context.SaveChanges();
+            var author = await _context.Author.FindAsync(book.AuthorId);
+            if (author == null)
+            {
+                return BadRequest("Specified AuthorId does not exist.");
+            }
 
+            book.Author = author;
+            _context.Books.Add(book);
+
+            await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
         }
 

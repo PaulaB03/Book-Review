@@ -20,16 +20,16 @@ namespace backend.Controllers
 
         // GET: api/Author
         [HttpGet]
-        public ActionResult<IEnumerable<Author>> GetAuthors()
+        public async Task<ActionResult<IEnumerable<Author>>> GetAuthors()
         {
-            return _context.Author;
+            return await _context.Author.ToListAsync();
         }
 
         // GET: api/Author/{id}
         [HttpGet("{id}")]
-        public ActionResult<Author> GetAuthor(int id)
+        public async Task<ActionResult<Author>> GetAuthor(int id)
         {
-            var author = _context.Author.FirstOrDefault(a => a.Id == id);
+            var author = await _context.Author.FindAsync(id);
 
             if (author == null)
             {
@@ -44,13 +44,6 @@ namespace backend.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult<Author> PostAuthor(Author author)
         {
-            // Check if the name is unique
-            if (_context.Author.Any(a => a.Name == author.Name))
-            {
-                ModelState.AddModelError("Name", "The name must be unique.");
-                return BadRequest(ModelState);
-            }
-
             _context.Author.Add(author);
             _context.SaveChanges();
 
@@ -69,13 +62,6 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            // Check if the updated name is unique (excluding the current author)
-            if (_context.Author.Any(a => a.Id != id && a.Name == updatedAuthor.Name))
-            {
-                ModelState.AddModelError("Name", "The name must be unique.");
-                return BadRequest(ModelState);
-            }
-
             existingAuthor.Name = updatedAuthor.Name;
             existingAuthor.Bio = updatedAuthor.Bio;
 
@@ -83,6 +69,5 @@ namespace backend.Controllers
 
             return Ok(existingAuthor);
         }
-
     }
 }

@@ -8,7 +8,6 @@ namespace backend.Models
     {
         [Key]
         [Required]
-        [JsonIgnore]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
@@ -17,8 +16,8 @@ namespace backend.Models
         public required string Email { get; set; }
         [Required]
         public required string Password { get; set; }
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
+        public string? FirstName { get; set; } = string.Empty;
+        public string? LastName { get; set; } = string.Empty;
         [JsonIgnore]
         [NotMapped]
         private string _role = "user";
@@ -39,6 +38,7 @@ namespace backend.Models
                 }
             }
         }
+        public ICollection<Status>? Status { get; set; }
 
         // Constructor to set default values, including the default role
         public User()
