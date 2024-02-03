@@ -11,7 +11,6 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class StatusController : ControllerBase
     {
         private DataContext _context;
@@ -27,6 +26,7 @@ namespace backend.Controllers
         {
             var statuses = await _context.Status
                 .Where(s => s.UserId == userId)
+                .Include(b => b.Book)
                 .ToListAsync();
 
             if (statuses == null || !statuses.Any())
@@ -41,8 +41,7 @@ namespace backend.Controllers
         [HttpGet("{userId}/{bookId}")]
         public async Task<ActionResult<Status>> GetStatus(int userId, int bookId)
         {
-            var status = await _context.Status
-                .FirstOrDefaultAsync(s => s.UserId == userId && s.BookId == bookId);
+            var status = await _context.Status.Include(b => b.Book).FirstOrDefaultAsync(s => s.UserId == userId && s.BookId == bookId);
 
             if (status == null)
             {
@@ -54,6 +53,7 @@ namespace backend.Controllers
 
         // POST: api/Status
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Status>> PostStatus(Status status)
         {
             // Check if the userId is valid
@@ -112,6 +112,7 @@ namespace backend.Controllers
 
         // PUT: api/Status/{userId}/{bookId}
         [HttpPut("{userId}/{bookId}")]
+        [Authorize]
         public async Task<IActionResult> ChangeStatus(int userId, int bookId, [FromBody] ReadingStatus newReadingStatus)
         {
             var existingStatus = await _context.Status
@@ -131,10 +132,11 @@ namespace backend.Controllers
 
         // DELETE: api/Status/{userId}/{bookId}
         [HttpDelete("{userId}/{bookId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteStatus(int userId, int bookId)
         {
-            var status = await _context.Status
-                .FirstOrDefaultAsync(s => s.UserId == userId && s.BookId == bookId);
+            var status = await _context.Status.FirstOrDefaultAsync(s => s.UserId == userId && s.BookId == bookId);
+
             if (status == null)
             {
                 return NotFound();

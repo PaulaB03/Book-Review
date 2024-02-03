@@ -48,6 +48,10 @@ export class AuthService {
     console.log(this.currentUser);
   }
 
+  getUser() {
+    return this.currentUser;
+  }
+
   setTokenAndUser(token: string, user: any): void {
     // Set the token and user information in cookies
     this.cookieService.set('token', token);

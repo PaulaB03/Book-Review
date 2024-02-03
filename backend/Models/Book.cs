@@ -13,10 +13,12 @@ namespace backend.Models
         [Required]
         public required string Title { get; set; }
         public int AuthorId {  get; set; }
-        [JsonIgnore]
         public Author? Author { get; set; }
         public string? Description { get; set; }
         public string? CoverUrl { get; set; }
+        [JsonIgnore]
         public ICollection<Status> Status { get; set; }
+        [JsonIgnore]
+        public ICollection<Review> Reviews { get; set; }
     }
 }

@@ -2,6 +2,16 @@
 
 <button (click)="test()">test</button>
 
+<div *ngIf="currentUser">
+    <h2>Welcome, {{ currentUser.username }}!</h2>
+  
+    <h3>Your Statuses:</h3>
+    <div *ngFor="let status of userStatuses">
+      <div>{{ status.book.title }} - {{ status.readingStatus }}</div>
+      <button (click)="updateReadingStatus(status.book.id, 'Completed')">Mark as Completed</button>
+      <button (click)="deleteStatus(status.book.id)">Delete Status</button>
+    </div>
+
 <div *ngIf="isAdmin()">
     <div>
         <label for="userId">User ID:</label>

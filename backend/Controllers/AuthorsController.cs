@@ -22,7 +22,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Author>>> GetAuthors()
         {
-            return await _context.Author.ToListAsync();
+            return await _context.Author.Include(a => a.Books).ToListAsync();
         }
 
         // GET: api/Author/{id}

@@ -14,6 +14,7 @@ namespace backend.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Author { get; set; }
         public DbSet<Status> Status { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +39,20 @@ namespace backend.Data
                 .HasOne(u => u.User)
                 .WithMany(s => s.Status)
                 .HasForeignKey(s => s.UserId);
+
+            // Review, User, Book
+            modelBuilder.Entity<Review>()
+                .HasKey(r => new { r.UserId, r.BookId });
+
+            modelBuilder.Entity<Review>()
+                .HasOne(b => b.Book)
+                .WithMany(r => r.Reviews)
+                .HasForeignKey(r => r.BookId);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(u => u.User)
+                .WithMany(r => r.Reviews)
+                .HasForeignKey(r => r.UserId);
 
 
             base.OnModelCreating(modelBuilder);

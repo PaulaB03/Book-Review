@@ -38,7 +38,10 @@ namespace backend.Models
                 }
             }
         }
+        [JsonIgnore]
         public ICollection<Status>? Status { get; set; }
+        [JsonIgnore]
+        public ICollection<Review> Reviews { get; set; }
 
         // Constructor to set default values, including the default role
         public User()

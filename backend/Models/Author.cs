@@ -14,6 +14,7 @@ namespace backend.Models
         [Required]
         public string Name { get; set; }
         public string? Bio { get; set; }
+        [JsonIgnore]
         public ICollection<Book>? Books { get; set; }
     }
 }
