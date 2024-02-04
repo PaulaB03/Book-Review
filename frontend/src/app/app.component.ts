@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -7,15 +7,11 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Read Review';
 
-  constructor(private authService: AuthService) {}
+  constructor(private titleService: Title) {}
 
-  isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
-
-  logout(): void {
-    this.authService.logout();
+  ngOnInit() {
+    this.titleService.setTitle(this.title);
   }
 }

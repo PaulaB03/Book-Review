@@ -1,0 +1,27 @@
+<div class="box">
+    <div>
+        <p>User: {{ review.user.username }}</p>
+        <p>Rating: {{ review.rating }}</p>
+        <p>Comment: {{ review.comment }}</p>
+    </div>
+
+    <div *ngIf="isLoggedIn">
+        <button (click)="deleteReview()">Delete review</button>
+        <button *ngIf="!isEditing" (click)="toggleEdit()">Update review</button>
+    </div>
+
+    <div *ngIf="isEditing">
+        <div>
+          <label for="rating">Rating:</label>
+          <input type="number" id="rating" [(ngModel)]="updatedReview.rating" name="rating" min="1" max="5" required>
+        </div>
+        <div>
+          <label for="comment">Comment:</label>
+          <textarea id="comment" [(ngModel)]="updatedReview.comment" name="comment"></textarea>
+        </div>
+        <button (click)="updateReview()">Update Review</button>
+        <button (click)="toggleEdit()">Cancel</button>
+    </div>
+
+</div>
+

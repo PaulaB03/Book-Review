@@ -52,6 +52,10 @@ export class AuthService {
     return this.currentUser;
   }
 
+  getUserId() {
+    return this.currentUser.id;
+  }
+
   setTokenAndUser(token: string, user: any): void {
     // Set the token and user information in cookies
     this.cookieService.set('token', token);
@@ -70,13 +74,13 @@ export class AuthService {
     return this.cookieService.get('token');
   }
 
-  changeUserRole(userId: number, newRole: string, token: string): Observable<any> {
+  changeUserRole(userId: number, newRole: string): Observable<any> {
     const url = `${this.baseUrl}/updateRole/${userId}?newRole=${newRole}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${this.getToken()}`
     });
-    const body = { newRole }; // Assuming your backend expects JSON in the request body
+    const body = { newRole }; 
 
     return this.http.put(url, body, { headers });
   }

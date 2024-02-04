@@ -27,6 +27,7 @@ namespace backend.Controllers
         {
             var reviews = await _context.Reviews
                 .Where(r => r.BookId == bookId)
+                .Include(u => u.User)
                 .ToListAsync();
 
             if (reviews == null || !reviews.Any())
@@ -41,7 +42,7 @@ namespace backend.Controllers
         [HttpGet("{bookId}/{userId}")]
         public async Task<ActionResult<Review>> GetReview(int bookId, int userId)
         {
-            var review = await _context.Reviews.FirstOrDefaultAsync(r => r.UserId == userId && r.BookId == bookId);
+            var review = await _context.Reviews.Include(u => u.User).FirstOrDefaultAsync(r => r.UserId == userId && r.BookId == bookId);
 
             if (review == null)
             {
@@ -71,16 +72,6 @@ namespace backend.Controllers
                 if (review.Rating < 1 || review.Rating > 5)
                 {
                     return BadRequest("Rating must be between 1 and 5.");
-                }
-
-                // Check if the user has a ReadingStatus of Reading or Read
-                var userReadingStatus = await _context.Status
-                    .FirstOrDefaultAsync(s => s.UserId == review.UserId && s.BookId == review.BookId);
-
-                if (userReadingStatus == null ||
-                    (userReadingStatus.ReadingStatus != ReadingStatus.Reading && userReadingStatus.ReadingStatus != ReadingStatus.Read))
-                {
-                    return BadRequest("User must be reading or have read the book to post a review.");
                 }
 
                 _context.Reviews.Add(review);

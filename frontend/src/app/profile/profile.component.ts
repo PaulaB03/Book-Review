@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
+import { ReadingStatus } from '../../services/global.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +13,14 @@ export class ProfileComponent implements OnInit {
   userStatuses: any[] = [];
   userId: number | undefined;
   newRole: string | undefined;
+  statusBool: boolean = false;
+  selectedStatus: string = '';
+
+  readingStatusOptions = [
+    { label: 'Read', value: 'Read' },
+    { label: 'Reading', value: 'Reading' },
+    { label: 'WantToRead', value: 'WantToRead' },
+  ];
 
   constructor(private authService: AuthService, private apiService: ApiService) {
     this.currentUser = authService.getUser();
@@ -27,52 +36,14 @@ export class ProfileComponent implements OnInit {
         console.error('Error fetching user statuses:', error);
       }
     );
+
   }
 
-  test() {
-    console.log(this.currentUser);
-  }
-
-  isAdmin(): boolean {
-    return this.authService.isAdmin();
-  }
-
-  changeUserRole(): void {
-    const token = this.authService.getToken();
-
-    if (token) {
-      // Check if userId is defined before making the HTTP request
-      if (this.userId !== undefined) {
-        if (this.newRole === 'admin' || this.newRole === 'user') {
-          this.authService.changeUserRole(this.userId, this.newRole, token).subscribe((response) => {
-              console.log('User role changed successfully', response);
-            },
-            (error) => {
-              if (error.status === 404) {
-                console.error(`User with ID ${this.userId} not found`);
-              } else {
-                console.error('Error changing user role', error);
-                // Handle other errors as needed
-              }
-            }
-          );
-        } else {
-          console.error('User role must be admin or user');
-        }
-      } else {
-        console.error('User ID is undefined. Cannot change user role.');
-        // Handle the case where userId is undefined
-      }
-    } else {
-      console.error('Token not found. User not authenticated.');
-      // Handle the case where the token is not available (user not authenticated)
-    }
-  }
-
-
-  // For example, you can have a function to update the reading status
   updateReadingStatus(bookId: number, newStatus: string): void {
-    this.apiService.updateReadingStatus(this.currentUser.id, bookId, newStatus).subscribe(
+    // Use a type assertion to inform TypeScript about the conversion
+    const numericStatus = ReadingStatus[newStatus as keyof typeof ReadingStatus];
+
+    this.apiService.updateReadingStatus(this.currentUser.id, bookId, numericStatus).subscribe(
       () => {
         console.log('Reading status updated successfully!');
         // Refresh the user statuses after updating
@@ -84,7 +55,7 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  // Another function to delete a status
+  // Delete status
   deleteStatus(bookId: number): void {
     this.apiService.deleteStatus(this.currentUser.id, bookId).subscribe(
       () => {
@@ -96,5 +67,13 @@ export class ProfileComponent implements OnInit {
         console.error('Error deleting status:', error);
       }
     );
+  }
+
+  getStatusString(status: any): string {
+    return `${status.book.title} - ${ReadingStatus[status.readingStatus]}`;
+  }
+
+  compareFn(option1: ReadingStatus, option2: ReadingStatus): boolean {
+    return option1 === option2;
   }
 }

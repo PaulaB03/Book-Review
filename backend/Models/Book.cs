@@ -17,8 +17,8 @@ namespace backend.Models
         public string? Description { get; set; }
         public string? CoverUrl { get; set; }
         [JsonIgnore]
-        public ICollection<Status> Status { get; set; }
+        public ICollection<Status>? Status { get; set; }
         [JsonIgnore]
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
     }
 }

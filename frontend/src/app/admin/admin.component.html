@@ -1,0 +1,96 @@
+<h1>Admin Panel</h1>
+
+<div>
+    <h2>Author functions</h2>
+    <h3>Add Author</h3>
+    <form [formGroup]="authorForm" (submit)="addAuthor()">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" formControlName="name" required>
+        </div>
+        <div class="form-group">
+            <label for="bio">Bio:</label>
+            <input type="text" id="bio" name="bio" formControlName="bio">
+        </div>
+        <button type="submit">Add Author</button>
+    </form>
+
+    <h3>Update Author</h3>
+    <div>
+        <label for="authorIdInput">Enter Author ID:</label>
+        <input type="number" id="authroIdInput" name="authorIdInput" [formControl]="authorIdInput">
+        <button (click)="loadAuthorDetails()">Load Author</button>
+    </div>
+    <form *ngIf="isFormTrue" [formGroup]="updateAuthorForm" (submit)="updateAuthor()">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" formControlName="name" required>
+        </div>
+        <div class="form-group">
+            <label for="bio">Bio:</label>
+            <input type="text" id="bio" name="bio" formControlName="bio">
+        </div>
+        <button type="submit">Update Author</button>
+    </form>
+</div>
+
+<div>   
+    <h2>Book Functions</h2>
+    <h3>Add Book</h3>
+    <form [formGroup]="bookForm" (submit)="addBook()">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" formControlName="title" required>
+        </div>
+        <div class="form-group">
+            <label for="authorId">AuthorId:</label>
+            <input type="number" id="authorId" name="authorId" formControlName="authorId" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" formControlName="description">
+        </div>
+        <div class="form-group">
+            <label for="coverUrl">Cover URL:</label>
+            <input type="text" id="coverUrl" name="coverUrl" formControlName="coverUrl">
+        </div>
+        <button type="submit">Add Book</button>
+    </form>
+  
+    <h3>Update Book</h3>
+    <div>
+        <label for="bookIdInput">Enter Book ID:</label>
+        <input type="number" id="bookIdInput" name="bookIdInput" [formControl]="bookIdInput">
+        <button (click)="loadBookDetails()">Load Book</button>
+    </div>
+    <form *ngIf="isFormVisible" [formGroup]="updateBookForm" (submit)="updateBook()">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" formControlName="title" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" formControlName="description">
+        </div>
+        <div class="form-group">
+            <label for="coverUrl">Cover URL:</label>
+            <input type="text" id="coverUrl" name="coverUrl" formControlName="coverUrl">
+        </div>
+        <button type="submit">Update Book</button>
+    </form>
+</div>
+
+<div class="userUpdate">
+    <h3>Update user Role</h3>
+    <div>
+        <label for="userId">User ID:</label>
+        <input type="number" id="userId" [(ngModel)]="userId" name="userId">
+    </div>
+  
+    <div>
+        <label for="newRole">New Role:</label>
+        <input type="text" id="newRole" [(ngModel)]="newRole" name="newRole">
+    </div>
+  
+    <button (click)="changeUserRole()">Change User Role</button>
+</div>
