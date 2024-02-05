@@ -58,8 +58,6 @@ export class BookComponent {
       this.loadReviews(this.bookId);
       this.checkUserReview();
       this.loadTotalRating();
-
-      console.log("bruh");
     });
   }
 
@@ -114,6 +112,7 @@ export class BookComponent {
       (reviews) => {
         this.reviews = reviews;
         this.ratingBool = reviews.length > 0;
+        this.loadTotalRating();
       },
       (error) => {
         if (error.status === 404) {

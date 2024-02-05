@@ -28,7 +28,7 @@
 </div>
 
 <h3>Reviews:</h3>
-<div *ngIf="!UserReview">
+<div *ngIf="!UserReview && isUserActive">
     <form [formGroup]="reviewForm" (submit)="addReview()">
         <div class="form-group">
           <label for="rating">Rating:</label>
