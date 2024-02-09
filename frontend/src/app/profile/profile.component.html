@@ -1,17 +1,8 @@
 <div *ngIf="currentUser">
-    <h2>Welcome, {{ currentUser.username }}!</h2>
-  
-    <h3>Your Statuses:</h3>
-    <div *ngFor="let status of userStatuses">
-        <div>{{ getStatusString(status) }}</div>
-        <button (click)="deleteStatus(status.book.id)">Delete Status</button>
-
-        <select [(ngModel)]="selectedStatus" name="statusDropdown">
-          <option *ngFor="let option of readingStatusOptions" [value]="option.value">
-            {{ option.label }}
-          </option>
-        </select>
-        <button (click)="updateReadingStatus(status.book.id, selectedStatus)">Update Status</button>
+    <h1>Welcome, {{ currentUser.firstName }}!</h1>
+    
+    <div *ngFor="let review of reviews">
+      <app-review class="review" [review]="review" [isProfile]="true"></app-review>
     </div>
 </div>
 

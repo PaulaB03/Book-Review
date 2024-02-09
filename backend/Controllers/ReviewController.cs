@@ -20,6 +20,23 @@ namespace backend.Controllers
             _context = context;
         }
 
+        // GET: api/Status/{bookId}
+        [HttpGet("User/{userId}")]
+        public async Task<ActionResult<IEnumerable<Review>>> GetReviews(int userId)
+        {
+            var reviews = await _context.Reviews
+                .Where(r => r.UserId == userId)
+                .Include(u => u.User)
+                .Include(u => u.Book).ThenInclude(b => b.Author)
+                .ToListAsync();
+
+            if (reviews == null || !reviews.Any())
+            {
+                return NotFound("No reviews found for the specified user.");
+            }
+
+            return reviews;
+        }
 
         // GET: api/Status/{bookId}
         [HttpGet("{bookId}")]
@@ -28,6 +45,7 @@ namespace backend.Controllers
             var reviews = await _context.Reviews
                 .Where(r => r.BookId == bookId)
                 .Include(u => u.User)
+                .Include(u => u.Book).ThenInclude(b => b.Author)
                 .ToListAsync();
 
             if (reviews == null || !reviews.Any())
@@ -42,7 +60,7 @@ namespace backend.Controllers
         [HttpGet("{bookId}/{userId}")]
         public async Task<ActionResult<Review>> GetReview(int bookId, int userId)
         {
-            var review = await _context.Reviews.Include(u => u.User).FirstOrDefaultAsync(r => r.UserId == userId && r.BookId == bookId);
+            var review = await _context.Reviews.FirstOrDefaultAsync(r => r.UserId == userId && r.BookId == bookId);
 
             if (review == null)
             {

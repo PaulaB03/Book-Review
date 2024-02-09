@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { ReadingStatus } from '../../services/global.service';
-import { skip } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReviewService } from '../../services/review.service';
 
@@ -20,6 +19,8 @@ export class BookComponent {
   UserReview: boolean = false;
   statusBool: boolean = false;
   ratingBool: boolean = false;
+  stars: number[] = [1, 2, 3, 4, 5];
+  selectedRating: number = 0;
   reviews: any[] = [];
   status: any;
   selectedStatus: string = '';
@@ -50,7 +51,6 @@ export class BookComponent {
     });
 
     this.isUserActive = this.authService.isLoggedIn();
-    this.checkUserStatus();
     this.checkUserReview();
     this.loadTotalRating();
 
@@ -59,6 +59,11 @@ export class BookComponent {
       this.checkUserReview();
       this.loadTotalRating();
     });
+  }
+
+  setRating(rating: number) {
+    this.selectedRating = rating;
+    this.reviewForm.controls['rating'].setValue(rating);
   }
 
   loadBookDetails(bookId: number) {
@@ -145,59 +150,6 @@ export class BookComponent {
         }
       );
     }
-  }
-
-  // Status functions
-  checkUserStatus() {
-    this.apiService.getUserStatus(this.authService.getUserId(), this.bookId).subscribe(
-      (status) => {
-        this.statusBool = true;
-        this.status = status;
-      },
-      (error) => {
-        if (error.status === 404) {
-          this.statusBool = false;
-        } else {
-          console.error('Error checking user status:', error);
-        }
-      }
-    );
-  }
-
-  addStatus(newStatus: string) {
-    // Use a type assertion to inform TypeScript about the conversion
-    const numericStatus = ReadingStatus[newStatus as keyof typeof ReadingStatus];
-
-    this.apiService.createStatus(this.authService.getUserId(), this.bookId, numericStatus).subscribe(
-      () => {
-        console.log('Status added successfully!');
-        // Refresh the user statuses after adding
-        this.checkUserStatus();
-      },
-      (error) => {
-        console.error('Error adding status:', error);
-      }
-    );
-  }
-
-  updateReadingStatus(newStatus: string): void {
-    // Use a type assertion to inform TypeScript about the conversion
-    const numericStatus = ReadingStatus[newStatus as keyof typeof ReadingStatus];
-
-    this.apiService.updateReadingStatus(this.authService.getUserId(), this.bookId, numericStatus).subscribe(
-      () => {
-        console.log('Reading status updated successfully!');
-        // Refresh the user statuses after updating
-        this.ngOnInit();
-      },
-      (error) => {
-        console.error('Error updating reading status:', error);
-      }
-    );
-  }
-
-  getStatusString() {
-    return `${this.status.book.title} - ${ReadingStatus[this.status.readingStatus]}`;
   }
 
   ngOnDestroy() {

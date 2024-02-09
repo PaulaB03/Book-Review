@@ -1,27 +1,28 @@
 <div class="box">
-    <div>
-        <p>User: {{ review.user.username }}</p>
-        <p>Rating: {{ review.rating }}</p>
-        <p>Comment: {{ review.comment }}</p>
+    <div *ngIf="!isEditing">
+      <div class="info">
+        <h3 *ngIf="!isProfile" style="margin-right: 10px;">{{ review.user?.username }}</h3>
+        <h3 *ngIf="isProfile">{{ review.book?.title }}</h3>
+        <h4 *ngIf="isProfile">{{ review.book?.author?.name}}</h4>
+        <span *ngFor="let star of stars" class="fa fa-star" [ngClass]="{ 'checked': star <= review.rating }"></span>
+    </div>
+    <p>{{ review.comment }}</p>
+    </div>
+    
+
+    <div class="form" *ngIf="isEditing">
+      <div>
+        <span *ngFor="let star of stars" class="fa fa-star" (click)="updateRating(star)" [ngClass]="{ 'checked': star <= updatedReview.rating }"></span>
+      </div>
+      <input type="number" id="rating" [(ngModel)]="updatedReview.rating" name="rating" min="1" max="5" style="display: none;" required>
+      <textarea id="comment" [(ngModel)]="updatedReview.comment" name="comment"></textarea>
     </div>
 
-    <div *ngIf="isLoggedIn">
-        <button (click)="deleteReview()">Delete review</button>
-        <button *ngIf="!isEditing" (click)="toggleEdit()">Update review</button>
-    </div>
-
-    <div *ngIf="isEditing">
-        <div>
-          <label for="rating">Rating:</label>
-          <input type="number" id="rating" [(ngModel)]="updatedReview.rating" name="rating" min="1" max="5" required>
-        </div>
-        <div>
-          <label for="comment">Comment:</label>
-          <textarea id="comment" [(ngModel)]="updatedReview.comment" name="comment"></textarea>
-        </div>
-        <button (click)="updateReview()">Update Review</button>
-        <button (click)="toggleEdit()">Cancel</button>
-    </div>
-
+    <div class="btns" *ngIf="isLoggedIn">
+      <button class="btn" *ngIf="!isEditing" (click)="deleteReview()">Delete</button>
+      <button class="btn" *ngIf="!isEditing" (click)="toggleEdit()">Update</button>
+      <button class="btn" *ngIf="isEditing" (click)="toggleEdit()">Cancel</button>
+      <button class="btn" *ngIf="isEditing" (click)="updateReview()">Update</button>
+  </div>
 </div>
 

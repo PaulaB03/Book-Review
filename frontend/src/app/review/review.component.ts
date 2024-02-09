@@ -10,15 +10,17 @@ import { ReviewService } from '../../services/review.service';
 })
 export class ReviewComponent {
   @Input() review: any;
+  @Input() isProfile: boolean = false;
   isLoggedIn: boolean = false;
   isEditing: boolean = false;
+  stars: number[] = [1, 2, 3, 4, 5];
   updatedReview: any = {};
   
   constructor(private reviewService: ReviewService, private apiService: ApiService,private authService: AuthService) {}
 
   ngOnInit() {
-    console.log(this.review);
     this.isLoggedIn = this.authService.getUser().id === this.review.user.id;
+    console.log(this.review);
   }
 
   toggleEdit() {
@@ -28,6 +30,10 @@ export class ReviewComponent {
       this.updatedReview.rating = this.review.rating;
       this.updatedReview.comment = this.review.comment;
     }
+  }
+
+  updateRating(rating: number) {
+    this.updatedReview.rating = rating;
   }
 
   updateReview() {

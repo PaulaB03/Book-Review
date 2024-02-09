@@ -17,7 +17,6 @@ namespace backend.Models
         public int Rating { get; set; }
         public string? Comment { get; set; }
         public User? User { get; set; }
-        [JsonIgnore]
         public Book? Book { get; set; }
     }
 }

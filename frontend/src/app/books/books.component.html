@@ -1,9 +1,10 @@
-<div>
-    <h2>Book List</h2>
-    <ul>
-      <li *ngFor="let book of books" (click)="goToBook(book.id)">
-        {{ book.title }} by {{ book.author?.name }}
-      </li>
-    </ul>
+<div class="books">
+    <div class="book" *ngFor="let book of books" (click)="goToBook(book.id)">
+        <img class="img" [src]="book.coverUrl" alt="Book Cover">
+        <div class="info">
+          <h1 class="title">{{ book.title }}</h1>
+          <h2 class="author">{{ book.author?.name }}</h2>
+        </div>
+    </div>
 </div>
   

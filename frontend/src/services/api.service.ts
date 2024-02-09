@@ -105,6 +105,11 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}/review/${bookId}/${userId}`, { headers });
   }
 
+  getUserReviews(): Observable<any[]> {
+    const headers = this.getHeaders();
+    return this.http.get<any[]>(`${this.baseUrl}/review/User/${this.authService.getUserId()}`, { headers });
+  }
+
   addReview(review: any): Observable<any> {
     const headers = this.getHeaders();
     return this.http.post<any>(`${this.baseUrl}/review`, review, { headers });

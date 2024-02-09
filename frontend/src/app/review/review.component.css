@@ -1,4 +1,71 @@
 .box {
-    border: 1px solid black;
-    margin: 2vh 0;
+    width: 96%;
+    margin: 0 auto;
+    padding: 2vh;
+    border-bottom: 1px dotted black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+    align-items: flex-end;
+}
+
+p {
+    font-style: italic;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.form {
+    width: 85%
+}
+
+.btns {
+    width: 15%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn {
+    all: unset;
+    color: rgb(85, 85, 85);
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+.fa-star {
+    color: grey;
+}
+
+.checked {
+    color:yellow;
+}
+
+textarea {
+    margin-top: 2vh;
+    padding: 3px 5px;
+    width: 100%;
+    background:#e9f3e2;
+    border-radius:3px;
+    line-height:2em;
+    border: 1px solid #ccdec0;
+}
+ 
+textarea:focus {
+    outline: none;
+    border-color: green; 
+}
+
+h4 {
+    margin: 0 10px;
+    font-style: italic;
+    align-self: flex-start;
+    color: rgb(107, 107, 107);
 }

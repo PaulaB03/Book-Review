@@ -1,55 +1,44 @@
-<div *ngIf="book">
-    <h2>{{ book.title }}</h2>
-    <p>Author: {{ book.author?.name }}</p>
-    <p>Description: {{ book.description }}</p>
-    <p>Rating: {{ rating }}</p>
+<div class="info">
+  <div *ngIf="book" class="book">
+    <img [src]="book.coverUrl" alt="Book Cover">
+
+    <div class="bookInfo">
+      <div class="bookTA">
+        <p class="title">{{ book.title }}</p>
+        <p class="author">{{ book.author?.name }}</p>
+      </div>
+      <p class="description">{{ book.description }}</p>
+      <div class="rating">Rating: 
+        <p>{{ rating }}</p></div>
+    </div>
+  </div>
 </div>
 
-<div *ngIf="isUserActive">
-    <br>
-    <div *ngIf="statusBool">
-        <div>{{ getStatusString() }}</div>
-        <select [(ngModel)]="selectedStatus" name="statusDropdown">
-            <option *ngFor="let option of readingStatusOptions" [value]="option.value">
-              {{ option.label }}
-            </option>
-        </select>
-        <button (click)="updateReadingStatus(selectedStatus)">Update Status</button>
-    </div>
-
-    <div *ngIf="!statusBool">
-        <select [(ngModel)]="selectedStatus" name="statusDropdown">
-            <option *ngFor="let option of readingStatusOptions" [value]="option.value">
-              {{ option.label }}
-            </option>
-        </select>
-        <button (click)="addStatus(selectedStatus)">Add Status</button>
-    </div>
-</div>
-
-<h3>Reviews:</h3>
-<div *ngIf="!UserReview && isUserActive">
-    <form [formGroup]="reviewForm" (submit)="addReview()">
-        <div class="form-group">
-          <label for="rating">Rating:</label>
-          <input type="number" id="rating" name="rating" formControlName="rating" required>
-          <div *ngIf="reviewForm.get('rating')?.hasError('min') || reviewForm.get('rating')?.hasError('max')">
-            Rating must be between 1 and 5.
+<div class="reviews">
+  <h3>Ratings & Reviews</h3>
+  <div *ngIf="!UserReview && isUserActive">
+      <form class="form" [formGroup]="reviewForm" (submit)="addReview()">
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+          <div style="display: flex; flex-direction: row; margin-top: auto;">
+              <p class="text">Add Review  </p>  
+              <span *ngFor="let star of stars" class="fa fa-star" (click)="setRating(star)" [ngClass]="{ 'checked': star <= selectedRating }"></span>
           </div>
+          <button class="btn" type="submit">Submit Review</button>
+        </div>
           
-        </div>
-        <div class="form-group">
-          <label for="comment">Comment:</label>
-          <textarea id="comment" name="comment" formControlName="comment"></textarea>
-        </div>
-        <button type="submit">Submit Review</button>
-      </form>
+          <div>
+            <textarea id="comment" name="comment" formControlName="comment"></textarea>
+          </div>
+        </form>
+  </div>
+
+  <div *ngIf="ratingBool">
+      <app-review *ngFor="let review of reviews" [review]="review"></app-review>
+  </div>
+
+  <div *ngIf="!ratingBool" style="margin-top: 2vh;">
+      <p>No reviews available.</p>
+  </div>
 </div>
 
-<div *ngIf="ratingBool">
-    <app-review *ngFor="let review of reviews" [review]="review"></app-review>
-</div>
-
-<div *ngIf="!ratingBool">
-    <p>No reviews available.</p>
-</div>
+<div style="height: 5vh;"></div>
